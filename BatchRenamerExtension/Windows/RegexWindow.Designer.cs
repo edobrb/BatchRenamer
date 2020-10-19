@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.chkShowMatches = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblFrom = new System.Windows.Forms.Label();
+            this.lblTo = new System.Windows.Forms.Label();
             this.txbFrom = new System.Windows.Forms.TextBox();
             this.txbTo = new System.Windows.Forms.TextBox();
             this.btnApply = new System.Windows.Forms.Button();
@@ -48,23 +48,23 @@
             this.chkShowMatches.Text = "Show matches";
             this.chkShowMatches.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // lblFrom
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "From:";
+            this.lblFrom.AutoSize = true;
+            this.lblFrom.Location = new System.Drawing.Point(12, 9);
+            this.lblFrom.Name = "lblFrom";
+            this.lblFrom.Size = new System.Drawing.Size(33, 13);
+            this.lblFrom.TabIndex = 1;
+            this.lblFrom.Text = "From:";
             // 
-            // label2
+            // lblTo
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 35);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(23, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "To:";
+            this.lblTo.AutoSize = true;
+            this.lblTo.Location = new System.Drawing.Point(12, 35);
+            this.lblTo.Name = "lblTo";
+            this.lblTo.Size = new System.Drawing.Size(23, 13);
+            this.lblTo.TabIndex = 2;
+            this.lblTo.Text = "To:";
             // 
             // txbFrom
             // 
@@ -103,8 +103,8 @@
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.txbTo);
             this.Controls.Add(this.txbFrom);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblTo);
+            this.Controls.Add(this.lblFrom);
             this.Controls.Add(this.chkShowMatches);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(2000, 127);
@@ -122,8 +122,8 @@
         #endregion
 
         public System.Windows.Forms.CheckBox chkShowMatches;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblFrom;
+        private System.Windows.Forms.Label lblTo;
         public System.Windows.Forms.TextBox txbFrom;
         public System.Windows.Forms.TextBox txbTo;
         public System.Windows.Forms.Button btnApply;

@@ -1,0 +1,1 @@
+srm.exe install BatchRenamerExtension.dll -codebase

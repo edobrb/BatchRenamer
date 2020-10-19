@@ -1,0 +1,1 @@
+srm.exe uninstall BatchRenamerExtension.dll -codebase

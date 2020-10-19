@@ -9,6 +9,7 @@ namespace TestLauncher
 {
     static class Program
     {
+        const int NUMBER_OF_TEST_FILES = 1000;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -18,7 +19,6 @@ namespace TestLauncher
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             List<string> files = new List<string>();
-            int NUMBER_OF_TEST_FILES = 1000;
             if (!Directory.Exists("test"))
             {
                 Directory.CreateDirectory("test");
