@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BatchRenamerExtension", "BatchRenamerExtension\BatchRenamerExtension.csproj", "{5FF2FA32-9C52-44CD-8190-8E283720884A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLauncher", "TestLauncher\TestLauncher.csproj", "{D6EBE6C2-304A-4908-978C-5BA55A6B43B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FF2FA32-9C52-44CD-8190-8E283720884A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FF2FA32-9C52-44CD-8190-8E283720884A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FF2FA32-9C52-44CD-8190-8E283720884A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FF2FA32-9C52-44CD-8190-8E283720884A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6EBE6C2-304A-4908-978C-5BA55A6B43B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6EBE6C2-304A-4908-978C-5BA55A6B43B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6EBE6C2-304A-4908-978C-5BA55A6B43B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6EBE6C2-304A-4908-978C-5BA55A6B43B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D8BE936A-B9FE-48C9-AE46-5FDB92B2C95A}
+	EndGlobalSection
+EndGlobal
