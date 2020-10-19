@@ -10,13 +10,13 @@ namespace BatchRenamerExtension
     {
         public delegate void ShowError(string title, string message);
         public delegate bool AskForContinuation(string title, string message);
-        public static Tuple<List<PathValue>, bool> Rename(
+        public static Tuple<List<FileOrFolderPath>, bool> Rename(
             PathContainer sources, 
             PathContainer dests, 
             ShowError ShowError, 
             AskForContinuation Ask)
         {
-            var success = new List<PathValue>();
+            var success = new List<FileOrFolderPath>();
 
             if (sources.Count() != dests.Count())
             {
@@ -25,7 +25,7 @@ namespace BatchRenamerExtension
             }
 
             var renames = dests.Zip(sources, (f, s) => Tuple.Create(f, s))
-                .Where(x => x.Item1.Value != x.Item2.Value);
+                .Where(x => x.Item1.CompletePath != x.Item2.CompletePath);
 
             foreach (var p in renames)
             {
@@ -35,24 +35,24 @@ namespace BatchRenamerExtension
                 {
                     if (source.ExistsAsFile && dest.ExistsAsFile)
                     { 
-                        if(!Ask("Overwriting", String.Format("Do you want to override {0} with {1}", source.Value, dest.Value)))
+                        if(!Ask("Overwriting", String.Format("Do you want to override {0} with {1}", source.CompletePath, dest.CompletePath)))
                         {
                             return Tuple.Create(success, false);
                         }
                     }
                     if (source.ExistsAsFile && !dest.IsValidAsFile)
                     {
-                        ShowError("Invalid file path", String.Format("The file {0} has an invalid path or name", dest.Value));
+                        ShowError("Invalid file path", String.Format("The file {0} has an invalid path or name", dest.CompletePath));
                         return Tuple.Create(success, false);
                     }
                     if (source.ExistsAsDirectory && dest.ExistsAsDirectory)
                     {
-                        ShowError("Folder merge", String.Format("Folder merge is not supported: {0}", dest.Value));
+                        ShowError("Folder merge", String.Format("Folder merge is not supported: {0}", dest.CompletePath));
                         return Tuple.Create(success, false);
                     }
-                    if(source.ExistsAsDirectory && !dest.IsValidAsDirectory(source.Value))
+                    if(source.ExistsAsDirectory && !dest.IsValidAsDirectory(source.CompletePath))
                     {
-                        ShowError("Invalid folder path", String.Format("The folder {0} has an invalid path or name", dest.Value));
+                        ShowError("Invalid folder path", String.Format("The folder {0} has an invalid path or name", dest.CompletePath));
                         return Tuple.Create(success, false);
                     }
                 }
@@ -74,13 +74,13 @@ namespace BatchRenamerExtension
                     {
                         if(dest.ExistsAsFile)
                         {
-                            File.Delete(dest.Value);
+                            File.Delete(dest.CompletePath);
                         }
-                        File.Move(source.Value, dest.Value);
+                        File.Move(source.CompletePath, dest.CompletePath);
                     }
                     else if (source.ExistsAsDirectory)
                     {
-                        Directory.Move(source.Value, dest.Value);
+                        Directory.Move(source.CompletePath, dest.CompletePath);
                     }
                     else
                     {

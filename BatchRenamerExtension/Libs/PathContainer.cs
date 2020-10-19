@@ -8,25 +8,21 @@ using System.Windows.Markup;
 
 namespace BatchRenamerExtension
 {
-    class PathContainer : IEnumerable<PathValue>
+    class PathContainer : IEnumerable<FileOrFolderPath>
     {
-        private List<PathValue> paths;
+        private List<FileOrFolderPath> paths;
 
         public PathContainer(IEnumerable<string> paths)
         {
-            this.paths = paths.Select(x => new PathValue(x)).ToList();
+            this.paths = paths.Select(x => new FileOrFolderPath(x)).ToList();
         }
-        public PathContainer(IEnumerable<PathValue> paths)
+        public PathContainer(IEnumerable<FileOrFolderPath> paths)
         {
-            this.paths = paths.Select(v => new PathValue(v.Value)).ToList();
+            this.paths = paths.Select(v => new FileOrFolderPath(v.CompletePath)).ToList();
         }
 
-        public void ChangeOnlyName(int index, string name)
-        {
-            paths[index].ChangeOnlyName(name);
-        }
 
-        public PathValue this[int index]
+        public FileOrFolderPath this[int index]
         {
             get
             {
@@ -36,11 +32,13 @@ namespace BatchRenamerExtension
 
         public string ToString(bool showPath)
         {
-
-            return paths.Aggregate("", (acc, x) => acc + "\n" + x.ToString(showPath)).Trim();
+            StringBuilder sb = new StringBuilder();
+            foreach(var p in paths) sb.AppendLine(p.ToString(showPath));
+            sb.Remove(sb.Length - 2, 2);
+            return sb.ToString();
         }
 
-        public IEnumerator<PathValue> GetEnumerator()
+        public IEnumerator<FileOrFolderPath> GetEnumerator()
         {
             return paths.GetEnumerator();
         }
@@ -52,7 +50,7 @@ namespace BatchRenamerExtension
 
         public void AddRange(IList<string> values)
         {
-            paths.AddRange(values.Where(v => paths.All(p => p.Value != v)).Select(v => new PathValue(v)));
+            paths.AddRange(values.Where(v => paths.All(p => p.CompletePath != v)).Select(v => new FileOrFolderPath(v)));
         }
     }
 }

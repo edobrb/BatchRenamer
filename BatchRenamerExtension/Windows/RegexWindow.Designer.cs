@@ -73,7 +73,7 @@
             this.txbFrom.Location = new System.Drawing.Point(51, 6);
             this.txbFrom.Name = "txbFrom";
             this.txbFrom.Size = new System.Drawing.Size(388, 20);
-            this.txbFrom.TabIndex = 3;
+            this.txbFrom.TabIndex = 1;
             // 
             // txbTo
             // 
@@ -82,7 +82,7 @@
             this.txbTo.Location = new System.Drawing.Point(51, 32);
             this.txbTo.Name = "txbTo";
             this.txbTo.Size = new System.Drawing.Size(388, 20);
-            this.txbTo.TabIndex = 4;
+            this.txbTo.TabIndex = 2;
             // 
             // btnApply
             // 
@@ -91,7 +91,7 @@
             this.btnApply.Location = new System.Drawing.Point(364, 58);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
-            this.btnApply.TabIndex = 5;
+            this.btnApply.TabIndex = 3;
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
             // 

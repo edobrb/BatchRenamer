@@ -17,10 +17,15 @@ namespace BatchRenamerExtension
         {
             InitializeComponent();
             this.parent = parent;
+            
         }
 
         private void RegexWindow_Load(object sender, EventArgs e)
         {
+            this.Activate();
+            this.Focus();
+            txbFrom.Focus();
+
             var screen = Screen.FromControl(this).Bounds;
             if (screen.Width > parent.Location.X + parent.Width + this.Width)
             {

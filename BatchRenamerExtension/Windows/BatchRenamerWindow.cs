@@ -29,8 +29,8 @@ namespace BatchRenamerExtension
         public BatchRenamerWindow(IEnumerable<string> files)
         {
             InitializeComponent();
-            sourceFilenames = new PathContainer(files);
-            destFilenames = new PathContainer(files);
+            sourceFilenames = new PathContainer(files/*.OrderBy(v => v)*/);
+            destFilenames = new PathContainer(files/*.OrderBy(v => v)*/);
             Assembly assembly = Assembly.GetAssembly(typeof(BatchRenamerExtension));
             Bitmap icon = new Bitmap(assembly.GetManifestResourceStream("BatchRenamerExtension.Resources.icon.png"));
             Icon = Icon.FromHandle(icon.GetHicon());
@@ -45,24 +45,38 @@ namespace BatchRenamerExtension
             }
 
             txbFiles.TextChanged += TxbFiles_TextChanged;
-            ReprintFilenames();
+            ReprintFilenames(false);
+            txbFiles.ClearUndo();
         }
-        private void ReprintFilenames()
+        private void ReprintFilenames(bool updateDestination = true)
         {
+            if(!updateDestination) txbFiles.TextChanged -= TxbFiles_TextChanged;
             txbFiles.Text = destFilenames.ToString(chkShowpathDest.Checked);
+            if (!updateDestination)
+            {
+                txbFiles.TextChanged += TxbFiles_TextChanged;
+                ReprintColoration(txbFiles.Range);
+            }
         }
-
         private void TxbFiles_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(txbFiles.Text))
             {
                 return;
             }
-
-            bool reprint = false;
+            UpdateDestinatinoPath(e.ChangedRange);
+            ReprintColoration(e.ChangedRange);
+        }
+        private void UpdateDestinatinoPath(Range range)
+        {
             if (chkShowpathDest.Checked)
             {
-                destFilenames = new PathContainer(txbFiles.Lines);
+                for (int i = 0; i < txbFiles.Lines.Count && i < destFilenames.Count(); i++)
+                {
+                    if (i < range.Start.iLine || i > range.End.iLine) continue;
+                    if (destFilenames[i].CompletePath == txbFiles.Lines[i]) continue;
+                    destFilenames[i].CompletePath = txbFiles.Lines[i];
+                }
             }
             else
             {
@@ -70,97 +84,108 @@ namespace BatchRenamerExtension
                 {
                     for (int i = 0; i < txbFiles.Lines.Count && i < destFilenames.Count(); i++)
                     {
-                        destFilenames.ChangeOnlyName(i, txbFiles.Lines[i]);
-                        if (txbFiles.Lines[i] != destFilenames[i].ToString(false))
+                        if (i < range.Start.iLine || i > range.End.iLine) continue;
+                        if (destFilenames[i].OnlyName == txbFiles.Lines[i]) continue;
+                        destFilenames[i].OnlyName = txbFiles.Lines[i];
+                        if (destFilenames[i].OnlyName != txbFiles.Lines[i]) //add a \ in the name
                         {
-                            reprint = true;
+                            txbFiles[i].Clear();
+                            txbFiles[i].AddRange(destFilenames[i].OnlyName.Select(c => new FastColoredTextBoxNS.Char(c)));
                         }
                     }
                 }
             }
-
-            txbFiles.Range.ClearStyle(grayStyle, redStyle, orangeStyle, greenStyle, regexStyle);
-
-            if (chkCheckPaths.Checked && !reprint)
+        }
+        private void ResetRegexStyles(Range range)
+        {
+            range.ClearStyle(grayStyle, redStyle, orangeStyle, greenStyle, regexStyle);
+        }
+        private void ReprintColoration(Range range)
+        {
+            if (!string.IsNullOrEmpty(renameRegex))
             {
-                for (int i = 0; i < txbFiles.Lines.Count && i < destFilenames.Count() && i < sourceFilenames.Count(); i++)
+                ReprintReplaceRegexColoration();
+            }
+            else
+            {
+                ReprintValidityColoration(range);
+            }
+        }
+        private void ReprintReplaceRegexColoration()
+        {
+            if (string.IsNullOrEmpty(renameRegex)) return;
+            try
+            {
+                ResetRegexStyles(txbFiles.Range);
+                txbFiles.Range.SetStyle(regexStyle, renameRegex, RegexOptions.Multiline);
+            }
+            catch { }
+        }
+        private void ReprintValidityColoration(Range range)
+        {
+            if (!string.IsNullOrEmpty(renameRegex)) return;
+            ResetRegexStyles(range);
+            if (chkCheckPaths.Checked)
+            {
+                List<string> lines = txbFiles.Lines.ToList();
+                int s = 0;
+                int f = 0;
+                for (int i = 0; i < lines.Count && i < destFilenames.Count() && i < sourceFilenames.Count(); i++)
                 {
-                    int s = 0;
-                    for (int j = 0; j < i; j++) s += txbFiles.Lines[j].Length + 2;
-                    int f = 0;
-                    for (int j = 0; j <= i; j++) f += txbFiles.Lines[j].Length + 2;
-                    if (!string.IsNullOrEmpty(renameRegex))
+                    f += lines[i].Length + 2;
+                    if (i < range.Start.iLine || i > range.End.iLine)
                     {
-                        try
-                        {
-                            txbFiles.GetRange(s, f).SetStyle(regexStyle, renameRegex);
-                        }
-                        catch { }
+                        s += lines[i].Length + 2;
+                        continue;
                     }
-                    else if (sourceFilenames[i].ExistsAsDirectory)
+
+                    Range r = txbFiles.GetRange(s, f);
+                    if (sourceFilenames[i].ExistsAsDirectory)
                     {
-                        if (destFilenames[i].IsValidAsDirectory(sourceFilenames[i].Value))
+                        if (destFilenames[i].IsValidAsDirectory(sourceFilenames[i].CompletePath))
                         {
-                            txbFiles.GetRange(s, f).SetStyle(grayStyle, PATH_REGEX);
+                            r.SetStyle(grayStyle, PATH_REGEX);
                             if (destFilenames[i].ExistsAsDirectory)
                             {
-                                txbFiles.GetRange(s, f).SetStyle(orangeStyle, FILENAME_REGEX);
+                                r.SetStyle(orangeStyle, FILENAME_REGEX);
                             }
                             else
                             {
-                                txbFiles.GetRange(s, f).SetStyle(greenStyle, FILENAME_REGEX);
+                                r.SetStyle(greenStyle, FILENAME_REGEX);
                             }
                         }
                         else
                         {
-                            txbFiles.GetRange(s, f).SetStyle(redStyle);
+                            r.SetStyle(redStyle);
                         }
-
                     }
                     else
                     {
                         if (destFilenames[i].IsValidAsFile)
                         {
-                            txbFiles.GetRange(s, f).SetStyle(grayStyle, PATH_REGEX);
+                            r.SetStyle(grayStyle, PATH_REGEX);
                             if (destFilenames[i].ExistsAsFile)
                             {
-                                txbFiles.GetRange(s, f).SetStyle(orangeStyle, FILENAME_REGEX);
+                                r.SetStyle(orangeStyle, FILENAME_REGEX);
                             }
                             else
                             {
-                                txbFiles.GetRange(s, f).SetStyle(greenStyle, FILENAME_REGEX);
+                                r.SetStyle(greenStyle, FILENAME_REGEX);
                             }
                         }
                         else
                         {
-                            txbFiles.GetRange(s, f).SetStyle(redStyle);
+                            r.SetStyle(redStyle);
                         }
                     }
-
+                    s += lines[i].Length + 2;
                 }
             }
-            else if (!chkCheckPaths.Checked && !reprint)
+            else
             {
-                if (!string.IsNullOrEmpty(renameRegex))
-                {
-                    try
-                    {
-                        txbFiles.Range.SetStyle(regexStyle, renameRegex, RegexOptions.Multiline);
-                    }
-                    catch { }
-                }
-                else
-                {
-                    txbFiles.Range.SetStyle(grayStyle, PATH_REGEX, RegexOptions.Multiline);
-                }
-            }
-
-            if (reprint)
-            {
-                ReprintFilenames();
+                range.SetStyle(grayStyle, PATH_REGEX, RegexOptions.Multiline);
             }
         }
-
         private void ShowError(string title, string message)
         {
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -169,22 +194,19 @@ namespace BatchRenamerExtension
         {
             return MessageBox.Show(message, title, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning) == DialogResult.Yes;
         }
-
         private void chkCheckPaths_CheckedChanged(object sender, EventArgs e)
         {
-            ReprintFilenames();
+            ReprintValidityColoration(txbFiles.Range);
         }
-
         private void chkShowpathDest_CheckedChanged(object sender, EventArgs e)
         {
-            ReprintFilenames();
+            ReprintFilenames(false);
+            txbFiles.ClearUndo();
         }
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
         private void btnApply_Click(object sender, EventArgs e)
         {
             var result = Renamer.Rename(sourceFilenames, destFilenames, ShowError, AskConfirmation);
@@ -194,18 +216,16 @@ namespace BatchRenamerExtension
             }
             else
             {
-                sourceFilenames = new PathContainer(this.sourceFilenames.Where(x => result.Item1.All(y => x.Value != y.Value)));
+                sourceFilenames = new PathContainer(this.sourceFilenames.Where(x => result.Item1.All(y => x.CompletePath != y.CompletePath)));
                 destFilenames = new PathContainer(sourceFilenames);
                 ReprintFilenames();
             }
         }
-
         private void btnRegex_Click(object sender, EventArgs e)
         {
             if (regexWindow == null)
             {
                 regexWindow = new RegexWindow(this);
-                regexWindow.chkShowMatches.Checked = destFilenames.Count() < 100;
                 regexWindow.Closing += (sender2, e2) =>
                 {
                     renameRegex = null;
@@ -217,7 +237,7 @@ namespace BatchRenamerExtension
                     if (regexWindow.chkShowMatches.Checked)
                     {
                         renameRegex = regexWindow.txbFrom.Text;
-                        ReprintFilenames();
+                        ReprintColoration(txbFiles.Range);
                     }
                 };
                 regexWindow.chkShowMatches.CheckedChanged += (sender2, e2) =>
@@ -225,12 +245,13 @@ namespace BatchRenamerExtension
                     if (regexWindow.chkShowMatches.Checked)
                     {
                         renameRegex = regexWindow.txbFrom.Text;
+                        ReprintReplaceRegexColoration();
                     }
                     else
                     {
                         renameRegex = null;
+                        ReprintValidityColoration(txbFiles.Range);
                     }
-                    ReprintFilenames();
                 };
                 regexWindow.btnApply.Click += (sender2, e2) =>
                 {
@@ -242,15 +263,15 @@ namespace BatchRenamerExtension
                             {
                                 if (chkShowpathDest.Checked)
                                 {
-                                    destFilenames[i].Value = Regex.Replace(destFilenames[i].Value,
+                                    destFilenames[i].CompletePath = Regex.Replace(destFilenames[i].CompletePath,
                                         regexWindow.txbFrom.Text,
                                         regexWindow.txbTo.Text);
                                 }
                                 else
                                 {
-                                    destFilenames[i].ChangeOnlyName(Regex.Replace(destFilenames[i].OnlyName,
+                                    destFilenames[i].OnlyName = Regex.Replace(destFilenames[i].OnlyName,
                                         regexWindow.txbFrom.Text,
-                                        regexWindow.txbTo.Text));
+                                        regexWindow.txbTo.Text);
                                 }
                             }
                             regexWindow.Close();
@@ -258,7 +279,7 @@ namespace BatchRenamerExtension
                         }
                         catch
                         {
-                            ShowError("Invalid regex", "The regex '"+ regexWindow.txbFrom.Text + "' is invalid.");
+                            ShowError("Invalid regex", "The regex '" + regexWindow.txbFrom.Text + "' is invalid.");
                         }
                         ReprintFilenames();
                     }
@@ -266,7 +287,6 @@ namespace BatchRenamerExtension
             }
             regexWindow.Show();
         }
-
         private void btnReset_Click(object sender, EventArgs e)
         {
             destFilenames = new PathContainer(sourceFilenames);

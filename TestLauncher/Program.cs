@@ -10,6 +10,7 @@ namespace TestLauncher
     static class Program
     {
         const int NUMBER_OF_TEST_FILES = 1000;
+        const int NUMBER_OF_TEST_DIRECTORY = 1000;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -29,12 +30,22 @@ namespace TestLauncher
                 {
                     File.Delete(f);
                 }
+                foreach (var d in Directory.GetDirectories("test"))
+                {
+                    Directory.Delete(d);
+                }
             }
             for (int i = 1; i <= NUMBER_OF_TEST_FILES; i++)
             {
                 var filename = "test\\" + i + ".txt";
                 File.WriteAllText(filename, i.ToString());
                 files.Add(new FileInfo(filename).FullName);
+            }
+            for (int i = 1; i <= NUMBER_OF_TEST_FILES; i++)
+            {
+                var directoryName = "test\\d" + i + "";
+                Directory.CreateDirectory(directoryName);
+                files.Add(new FileInfo(directoryName).FullName);
             }
             Application.Run(new BatchRenamerExtension.BatchRenamerWindow(files));
         }
