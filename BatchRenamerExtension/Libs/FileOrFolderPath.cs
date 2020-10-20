@@ -2,36 +2,39 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace BatchRenamerExtension
 {
     class FileOrFolderPath
     {
-        private string _path = null;
-        public string CompletePath
-        {
-            get
-            {
-                return _path;
-            }
-            set
-            {
-                _path = value;
-                InvalidateCache();
-            }
-        }
-
+        private string path = null;
+        private bool? isValidAsFile = null;
+        private Dictionary<string, bool> isValidAsDirectory = new Dictionary<string, bool>();
+        private bool? existAsDirectory = null;
+        private bool? existAsFile = null;
+        private bool? isFileLocked = null;
         public FileOrFolderPath(string path)
         {
             this.CompletePath = path;
         }
-
         public string ToString(bool showPath)
         {
             return showPath ? CompletePath : OnlyName;
         }
-
+        public string CompletePath
+        {
+            get
+            {
+                return path;
+            }
+            set
+            {
+                path = value;
+                InvalidateCache();
+            }
+        }
         public string OnlyName
         {
             get
@@ -52,42 +55,38 @@ namespace BatchRenamerExtension
                 InvalidateCache();
             }
         }
-
-        private bool? _isValidAsFile = null;
         public bool IsValidAsFile
         {
             get
             {
-                if (_isValidAsFile.HasValue)
+                if (isValidAsFile.HasValue)
                 {
-                    return _isValidAsFile.Value;
+                    return isValidAsFile.Value;
                 }
                 else
                 {
                     try
                     {
                         var file = new FileInfo(CompletePath);
-                        _isValidAsFile = Directory.Exists(file.DirectoryName)
+                        isValidAsFile = Directory.Exists(file.DirectoryName)
                             && !Directory.Exists(CompletePath) && Path.IsPathRooted(CompletePath);
                     }
                     catch
                     {
-                        _isValidAsFile = false;
+                        isValidAsFile = false;
                     }
                     return IsValidAsFile;
                 }
             }
         }
-
-        private Dictionary<string, bool> _isValidAsDirectory = new Dictionary<string, bool>();
         public bool IsValidAsDirectory(string origin)
         {
             try
             {
-                if(_isValidAsDirectory.ContainsKey(origin))
+                if (isValidAsDirectory.ContainsKey(origin))
                 {
-                    return _isValidAsDirectory[origin];
-                } 
+                    return isValidAsDirectory[origin];
+                }
                 else
                 {
                     var originDir = new DirectoryInfo(origin);
@@ -105,55 +104,88 @@ namespace BatchRenamerExtension
                     }
 
                     bool parentExists = Directory.Exists(new DirectoryInfo(CompletePath).Parent.FullName);
-                    _isValidAsDirectory.Add(origin, parentExists && !isParent && !File.Exists(CompletePath));
+                    isValidAsDirectory.Add(origin, parentExists && !isParent && !File.Exists(CompletePath));
                     return IsValidAsDirectory(origin);
                 }
-                
+
             }
             catch
             {
                 return false;
             }
         }
-
-        private bool? _existAsDirectory = null;
         public bool ExistsAsDirectory
         {
             get
             {
-                if (_existAsDirectory.HasValue)
+                if (existAsDirectory.HasValue)
                 {
-                    return _existAsDirectory.Value;
+                    return existAsDirectory.Value;
                 }
                 else
                 {
-                    _existAsDirectory = Directory.Exists(CompletePath);
+                    existAsDirectory = Directory.Exists(CompletePath);
                     return ExistsAsDirectory;
                 }
             }
         }
-
-        private bool? _existAsFile = null;
         public bool ExistsAsFile
         {
             get
             {
-                if (_existAsFile.HasValue)
+                if (existAsFile.HasValue)
                 {
-                    return _existAsFile.Value;
+                    return existAsFile.Value;
                 }
                 else
                 {
-                    _existAsFile = File.Exists(CompletePath);
+                    existAsFile = File.Exists(CompletePath);
                     return ExistsAsFile;
                 }
             }
         }
-
+        public bool IsFileLocked
+        {
+            get
+            {
+                if (!IsValidAsFile) return false;
+                if (isFileLocked.HasValue) return isFileLocked.Value;
+                else
+                {
+                    FileInfo file = new FileInfo(CompletePath);
+                    try
+                    {
+                        using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                        {
+                            stream.Close();
+                        }
+                        isFileLocked = false;
+                    }
+                    catch (IOException)
+                    {
+                        isFileLocked = true;
+                    }
+                    return IsFileLocked;
+                }
+            }
+        }
         private void InvalidateCache()
         {
-            _isValidAsFile = _existAsFile = _existAsDirectory = null;
-            _isValidAsDirectory.Clear();
+            isFileLocked = isValidAsFile = existAsFile = existAsDirectory = null;
+            isValidAsDirectory.Clear();
         }
+        public override bool Equals(object obj)
+        {
+            return (obj is FileOrFolderPath) && ((obj as FileOrFolderPath).CompletePath == this.CompletePath);
+        }
+        public override int GetHashCode()
+        {
+            return CompletePath.GetHashCode();
+        }
+
+        public static bool operator !=(FileOrFolderPath l, FileOrFolderPath r) => !(l == r);
+
+
+        public static bool operator ==(FileOrFolderPath l, FileOrFolderPath r) => l.Equals(r);
     }
 }

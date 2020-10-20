@@ -15,15 +15,17 @@ namespace BatchRenamerExtension
 {
     public partial class BatchRenamerWindow : Form
     {
-        private PathContainer sourceFilenames;
-        private PathContainer destFilenames;
-        private TextStyle grayStyle = new TextStyle(Brushes.DarkGray, null, FontStyle.Regular);
-        private TextStyle orangeStyle = new TextStyle(Brushes.DarkOrange, null, FontStyle.Regular);
-        private TextStyle redStyle = new TextStyle(Brushes.Red, null, FontStyle.Underline);
-        private TextStyle greenStyle = new TextStyle(Brushes.Green, null, FontStyle.Regular);
-        private TextStyle regexStyle = new TextStyle(null, Brushes.LightBlue, FontStyle.Bold);
         private const string PATH_REGEX = @"(^(.+)\\)";
         private const string FILENAME_REGEX = @"[^\\]+$";
+
+        private PathContainer sourceFilenames;
+        private PathContainer destFilenames;
+        private TextStyle rootFilenameStyle = new TextStyle(Brushes.DarkGray, null, FontStyle.Regular);
+        private TextStyle fileOverwriteStyle = new TextStyle(null, Brushes.DarkOrange, FontStyle.Regular);
+        private TextStyle wrongFilenameStyle = new TextStyle(Brushes.Red, null, FontStyle.Underline);
+        private TextStyle fileLockedStyle = new TextStyle(null, Brushes.Yellow, FontStyle.Regular);
+        private TextStyle filenameOkStyle = new TextStyle(null, Brushes.LightGreen, FontStyle.Regular);
+        private TextStyle regexHighlightsStle = new TextStyle(null, Brushes.LightBlue, FontStyle.Bold);
         private RegexWindow regexWindow = null;
         private string renameRegex = null;
         public BatchRenamerWindow(IEnumerable<string> files)
@@ -35,14 +37,9 @@ namespace BatchRenamerExtension
             Bitmap icon = new Bitmap(assembly.GetManifestResourceStream("BatchRenamerExtension.Resources.icon.png"));
             Icon = Icon.FromHandle(icon.GetHicon());
 
-            if (sourceFilenames.Count() == 0)
-            {
-                this.Close();
-            }
-            if (destFilenames.Count() > 100)
-            {
-                chkCheckPaths.Checked = false;
-            }
+            if (sourceFilenames.Count() == 0) this.Close();
+
+            if (destFilenames.Count() > 100) chkCheckPaths.Checked = false;
 
             txbFiles.TextChanged += TxbFiles_TextChanged;
             ReprintFilenames(false);
@@ -50,7 +47,7 @@ namespace BatchRenamerExtension
         }
         private void ReprintFilenames(bool updateDestination = true)
         {
-            if(!updateDestination) txbFiles.TextChanged -= TxbFiles_TextChanged;
+            if (!updateDestination) txbFiles.TextChanged -= TxbFiles_TextChanged;
             txbFiles.Text = destFilenames.ToString(chkShowpathDest.Checked);
             if (!updateDestination)
             {
@@ -91,6 +88,7 @@ namespace BatchRenamerExtension
                         {
                             txbFiles[i].Clear();
                             txbFiles[i].AddRange(destFilenames[i].OnlyName.Select(c => new FastColoredTextBoxNS.Char(c)));
+                            txbFiles.ClearUndo();
                         }
                     }
                 }
@@ -98,18 +96,12 @@ namespace BatchRenamerExtension
         }
         private void ResetRegexStyles(Range range)
         {
-            range.ClearStyle(grayStyle, redStyle, orangeStyle, greenStyle, regexStyle);
+            range.ClearStyle(fileLockedStyle, rootFilenameStyle, wrongFilenameStyle, fileOverwriteStyle, filenameOkStyle, regexHighlightsStle);
         }
         private void ReprintColoration(Range range)
         {
-            if (!string.IsNullOrEmpty(renameRegex))
-            {
-                ReprintReplaceRegexColoration();
-            }
-            else
-            {
-                ReprintValidityColoration(range);
-            }
+            if (!string.IsNullOrEmpty(renameRegex)) ReprintReplaceRegexColoration();
+            else ReprintValidityColoration(range);
         }
         private void ReprintReplaceRegexColoration()
         {
@@ -117,7 +109,7 @@ namespace BatchRenamerExtension
             try
             {
                 ResetRegexStyles(txbFiles.Range);
-                txbFiles.Range.SetStyle(regexStyle, renameRegex, RegexOptions.Multiline);
+                txbFiles.Range.SetStyle(regexHighlightsStle, renameRegex, RegexOptions.Multiline);
             }
             catch { }
         }
@@ -144,38 +136,33 @@ namespace BatchRenamerExtension
                     {
                         if (destFilenames[i].IsValidAsDirectory(sourceFilenames[i].CompletePath))
                         {
-                            r.SetStyle(grayStyle, PATH_REGEX);
-                            if (destFilenames[i].ExistsAsDirectory)
+                            r.SetStyle(rootFilenameStyle, PATH_REGEX);
+                            if (sourceFilenames[i] != destFilenames[i])
                             {
-                                r.SetStyle(orangeStyle, FILENAME_REGEX);
-                            }
-                            else
-                            {
-                                r.SetStyle(greenStyle, FILENAME_REGEX);
+                                if (destFilenames[i].ExistsAsDirectory) r.SetStyle(fileOverwriteStyle, FILENAME_REGEX);
+                                else r.SetStyle(filenameOkStyle, FILENAME_REGEX);
                             }
                         }
                         else
                         {
-                            r.SetStyle(redStyle);
+                            r.SetStyle(wrongFilenameStyle);
                         }
                     }
                     else
                     {
                         if (destFilenames[i].IsValidAsFile)
                         {
-                            r.SetStyle(grayStyle, PATH_REGEX);
-                            if (destFilenames[i].ExistsAsFile)
+                            r.SetStyle(rootFilenameStyle, PATH_REGEX);
+                            if (sourceFilenames[i].IsFileLocked) r.SetStyle(fileLockedStyle);
+                            else if (sourceFilenames[i] != destFilenames[i])
                             {
-                                r.SetStyle(orangeStyle, FILENAME_REGEX);
-                            }
-                            else
-                            {
-                                r.SetStyle(greenStyle, FILENAME_REGEX);
+                                if (destFilenames[i].ExistsAsFile) r.SetStyle(fileOverwriteStyle, FILENAME_REGEX);
+                                else r.SetStyle(filenameOkStyle, FILENAME_REGEX);
                             }
                         }
                         else
                         {
-                            r.SetStyle(redStyle);
+                            r.SetStyle(wrongFilenameStyle);
                         }
                     }
                     s += lines[i].Length + 2;
@@ -183,7 +170,7 @@ namespace BatchRenamerExtension
             }
             else
             {
-                range.SetStyle(grayStyle, PATH_REGEX, RegexOptions.Multiline);
+                range.SetStyle(rootFilenameStyle, PATH_REGEX, RegexOptions.Multiline);
             }
         }
         private void ShowError(string title, string message)
