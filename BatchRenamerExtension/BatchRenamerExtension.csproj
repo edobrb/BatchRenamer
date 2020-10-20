@@ -67,6 +67,12 @@
   <ItemGroup>
     <Compile Include="BatchRenamerExtension.cs" />
     <Compile Include="FormUtils.cs" />
+    <Compile Include="HelpWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelpWindow.Designer.cs">
+      <DependentUpon>HelpWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="PathContainerView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -101,6 +107,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="HelpWindow.resx">
+      <DependentUpon>HelpWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PathContainerView.resx">
       <DependentUpon>PathContainerView.cs</DependentUpon>
     </EmbeddedResource>

@@ -68,5 +68,12 @@ namespace BatchRenamerExtension
         {
             pathContainerView.SetPaths(initialPaths);
         }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            HelpWindow help = new HelpWindow();
+            help.SetColor(pathContainerView);
+            help.ShowDialog();
+        }
     }
 }

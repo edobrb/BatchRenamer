@@ -66,7 +66,7 @@ namespace BatchRenamerExtension
 
         public TextStyle RootFilenameStyle = new TextStyle(Brushes.DarkGray, null, FontStyle.Regular);
         public TextStyle FileOverwriteStyle = new TextStyle(null, Brushes.DarkOrange, FontStyle.Regular);
-        public TextStyle WrongFilenameStyle = new TextStyle(Brushes.Red, null, FontStyle.Underline);
+        public TextStyle WrongFilenameStyle = new TextStyle(null, Brushes.Red, FontStyle.Regular);
         public TextStyle FileLockedStyle = new TextStyle(null, Brushes.Yellow, FontStyle.Regular);
         public TextStyle FilenameOkStyle = new TextStyle(null, Brushes.LightGreen, FontStyle.Regular);
         public TextStyle RegexHighlightsStle = new TextStyle(null, Brushes.LightBlue, FontStyle.Bold);
