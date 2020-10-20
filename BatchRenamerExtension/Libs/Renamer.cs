@@ -18,7 +18,7 @@ namespace BatchRenamerExtension
         {
             var success = new List<FileOrFolderPath>();
 
-            if (sources.Count() != dests.Count())
+            if (sources.Count != dests.Count)
             {
                 ShowError("Wrong file number", "The number of fiels to rename is not correct.");
                 return Tuple.Create(success, false);

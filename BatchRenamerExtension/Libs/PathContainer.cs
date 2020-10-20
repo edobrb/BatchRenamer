@@ -8,10 +8,14 @@ using System.Windows.Markup;
 
 namespace BatchRenamerExtension
 {
-    class PathContainer : IEnumerable<FileOrFolderPath>
+    public class PathContainer : IEnumerable<FileOrFolderPath>
     {
         private List<FileOrFolderPath> paths;
 
+        public PathContainer()
+        {
+            this.paths = new List<FileOrFolderPath>();
+        }
         public PathContainer(IEnumerable<string> paths)
         {
             this.paths = paths.Select(x => new FileOrFolderPath(x)).ToList();
@@ -33,8 +37,8 @@ namespace BatchRenamerExtension
         public string ToString(bool showPath)
         {
             StringBuilder sb = new StringBuilder();
-            foreach(var p in paths) sb.AppendLine(p.ToString(showPath));
-            sb.Remove(sb.Length - 2, 2);
+            foreach (var p in paths) sb.AppendLine(p.ToString(showPath));
+            if(sb.Length > 2) sb.Remove(sb.Length - 2, 2);
             return sb.ToString();
         }
 
@@ -51,6 +55,11 @@ namespace BatchRenamerExtension
         public void AddRange(IList<string> values)
         {
             paths.AddRange(values.Where(v => paths.All(p => p.CompletePath != v)).Select(v => new FileOrFolderPath(v)));
+        }
+
+        public int Count
+        {
+            get => paths.Count;
         }
     }
 }

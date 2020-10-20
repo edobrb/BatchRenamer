@@ -66,6 +66,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchRenamerExtension.cs" />
+    <Compile Include="FormUtils.cs" />
+    <Compile Include="PathContainerView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PathContainerView.Designer.cs">
+      <DependentUpon>PathContainerView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\BatchRenamerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +101,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="PathContainerView.resx">
+      <DependentUpon>PathContainerView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Windows\BatchRenamerWindow.resx">
       <DependentUpon>BatchRenamerWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -109,6 +119,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

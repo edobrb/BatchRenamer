@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BatchRenamerExtension
 {
-    class FileOrFolderPath
+    public class FileOrFolderPath
     {
         private string path = null;
         private bool? isValidAsFile = null;
@@ -182,10 +182,7 @@ namespace BatchRenamerExtension
         {
             return CompletePath.GetHashCode();
         }
-
         public static bool operator !=(FileOrFolderPath l, FileOrFolderPath r) => !(l == r);
-
-
         public static bool operator ==(FileOrFolderPath l, FileOrFolderPath r) => l.Equals(r);
     }
 }
