@@ -24,9 +24,6 @@ namespace BatchRenamerExtension
 
         private void RegexWindow_Load(object sender, EventArgs e)
         {
-            Activate();
-            Focus();
-            txbFrom.Focus();
             Rectangle screen = Screen.FromControl(this).Bounds;
             if (screen.Width > parent.Location.X + parent.Width + Width)
             {
@@ -84,6 +81,13 @@ namespace BatchRenamerExtension
             preview.SetPaths(view.SourceFilenames, string.IsNullOrEmpty(txbFrom.Text));
             preview.ApplyRegex(txbFrom.Text, txbTo.Text, false);
             preview.ClearUndo();
+        }
+
+        private void RegexWindow_Shown(object sender, EventArgs e)
+        {
+            Activate();
+            Focus();
+            txbFrom.Focus();
         }
 
         public void ShowFullpathChanged()

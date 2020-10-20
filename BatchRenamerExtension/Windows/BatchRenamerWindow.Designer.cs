@@ -36,6 +36,7 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.pathContainerView = new PathContainerView();
             this.pathContainerPreview = new PathContainerView();
+            this.btnHelp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // chkCheckPaths
@@ -44,10 +45,10 @@
             this.chkCheckPaths.AutoSize = true;
             this.chkCheckPaths.Checked = true;
             this.chkCheckPaths.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCheckPaths.Location = new System.Drawing.Point(695, 12);
+            this.chkCheckPaths.Location = new System.Drawing.Point(695, 39);
             this.chkCheckPaths.Name = "chkCheckPaths";
             this.chkCheckPaths.Size = new System.Drawing.Size(116, 17);
-            this.chkCheckPaths.TabIndex = 1;
+            this.chkCheckPaths.TabIndex = 2;
             this.chkCheckPaths.Text = "Check path validity";
             this.chkCheckPaths.UseVisualStyleBackColor = true;
             this.chkCheckPaths.CheckedChanged += new System.EventHandler(this.chkCheckPaths_CheckedChanged);
@@ -56,10 +57,10 @@
             // 
             this.chkShowpathDest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShowpathDest.AutoSize = true;
-            this.chkShowpathDest.Location = new System.Drawing.Point(695, 35);
+            this.chkShowpathDest.Location = new System.Drawing.Point(695, 62);
             this.chkShowpathDest.Name = "chkShowpathDest";
             this.chkShowpathDest.Size = new System.Drawing.Size(93, 17);
-            this.chkShowpathDest.TabIndex = 2;
+            this.chkShowpathDest.TabIndex = 3;
             this.chkShowpathDest.Text = "Show full path";
             this.chkShowpathDest.UseVisualStyleBackColor = true;
             this.chkShowpathDest.CheckedChanged += new System.EventHandler(this.chkShowpathDest_CheckedChanged);
@@ -67,10 +68,10 @@
             // btnReset
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReset.Location = new System.Drawing.Point(695, 58);
+            this.btnReset.Location = new System.Drawing.Point(695, 85);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(116, 23);
-            this.btnReset.TabIndex = 3;
+            this.btnReset.TabIndex = 4;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
@@ -78,10 +79,10 @@
             // btnRegex
             // 
             this.btnRegex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRegex.Location = new System.Drawing.Point(695, 87);
+            this.btnRegex.Location = new System.Drawing.Point(695, 114);
             this.btnRegex.Name = "btnRegex";
             this.btnRegex.Size = new System.Drawing.Size(116, 23);
-            this.btnRegex.TabIndex = 4;
+            this.btnRegex.TabIndex = 5;
             this.btnRegex.Text = "Regex...";
             this.btnRegex.UseVisualStyleBackColor = true;
             this.btnRegex.Click += new System.EventHandler(this.btnRegex_Click);
@@ -92,7 +93,7 @@
             this.btnCancel.Location = new System.Drawing.Point(695, 241);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(116, 23);
-            this.btnCancel.TabIndex = 5;
+            this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -104,7 +105,7 @@
             this.btnApply.Location = new System.Drawing.Point(695, 270);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(116, 23);
-            this.btnApply.TabIndex = 6;
+            this.btnApply.TabIndex = 7;
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
@@ -117,7 +118,7 @@
             this.pathContainerView.Location = new System.Drawing.Point(0, 1);
             this.pathContainerView.Name = "pathContainerView";
             this.pathContainerView.Size = new System.Drawing.Size(686, 298);
-            this.pathContainerView.TabIndex = 7;
+            this.pathContainerView.TabIndex = 8;
             // 
             // pathContainerPreview
             // 
@@ -128,13 +129,25 @@
             this.pathContainerPreview.Name = "pathContainerPreview";
             this.pathContainerPreview.Size = new System.Drawing.Size(686, 298);
             this.pathContainerPreview.TabIndex = 8;
+            this.pathContainerPreview.TabStop = false;
             this.pathContainerPreview.Visible = false;
+            // 
+            // btnHelp
+            // 
+            this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHelp.Location = new System.Drawing.Point(694, 8);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(116, 23);
+            this.btnHelp.TabIndex = 1;
+            this.btnHelp.Text = "Help";
+            this.btnHelp.UseVisualStyleBackColor = true;
             // 
             // BatchRenamerWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(820, 300);
+            this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.pathContainerPreview);
             this.Controls.Add(this.pathContainerView);
             this.Controls.Add(this.btnApply);
@@ -161,5 +174,6 @@
         private System.Windows.Forms.Button btnApply;
         private PathContainerView pathContainerView;
         private PathContainerView pathContainerPreview;
+        private System.Windows.Forms.Button btnHelp;
     }
 }

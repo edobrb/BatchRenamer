@@ -130,6 +130,7 @@
             this.Text = "Apply regex to paths";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RegexWindow_FormClosing);
             this.Load += new System.EventHandler(this.RegexWindow_Load);
+            this.Shown += new System.EventHandler(this.RegexWindow_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

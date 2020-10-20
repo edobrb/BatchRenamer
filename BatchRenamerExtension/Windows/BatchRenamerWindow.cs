@@ -49,13 +49,9 @@ namespace BatchRenamerExtension
         private void btnApply_Click(object sender, EventArgs e)
         {
             var result = Renamer.Rename(initialPaths, pathContainerView.DestFilenames, FormUtils.ShowError, FormUtils.AskConfirmation);
-            if (result.Item2)
+            if (result.Item2 || result.Item1.Count > 0)
             {
                 this.Close();
-            }
-            else
-            {
-                pathContainerView.SetPaths(new PathContainer(initialPaths.Where(x => result.Item1.All(y => x != y))));
             }
         }
         private void btnRegex_Click(object sender, EventArgs e)
@@ -65,6 +61,7 @@ namespace BatchRenamerExtension
                 regexWindow = new RegexWindow(this, pathContainerView, pathContainerPreview);
                 regexWindow.Closing += (sender2, e2) => regexWindow = null;
             }
+            regexWindow.Hide();
             regexWindow.Show();
         }
         private void btnReset_Click(object sender, EventArgs e)

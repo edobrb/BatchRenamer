@@ -23,6 +23,10 @@ namespace BatchRenamerExtension
         {
             return showPath ? CompletePath : OnlyName;
         }
+        public override string ToString()
+        {
+            return CompletePath;
+        }
         public string CompletePath
         {
             get
@@ -169,7 +173,7 @@ namespace BatchRenamerExtension
                 }
             }
         }
-        private void InvalidateCache()
+        public void InvalidateCache()
         {
             isFileLocked = isValidAsFile = existAsFile = existAsDirectory = null;
             isValidAsDirectory.Clear();
