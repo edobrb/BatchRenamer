@@ -56,7 +56,6 @@ namespace BatchRenamerExtension
                 {
                     CompletePath = dirName + "\\" + value;
                 }
-                InvalidateCache();
             }
         }
         public bool IsValidAsFile
@@ -152,6 +151,7 @@ namespace BatchRenamerExtension
         {
             get
             {
+                if(!ExistsAsFile) return false;
                 if (!IsValidAsFile) return false;
                 if (isFileLocked.HasValue) return isFileLocked.Value;
                 else

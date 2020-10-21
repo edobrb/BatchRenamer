@@ -28,7 +28,13 @@ namespace BatchRenamerExtension
             if (files.Count() == 0) this.Close();
             initialPaths = new PathContainer(files);
             pathContainerView.SetPaths(initialPaths);
-            if (files.Count() > 100) chkCheckPaths.Checked = false;
+            chkCheckPaths.Checked = files.Count() < 100;
+            pathContainerView.PathsEdited += PathContainerView_PathsEdited;
+        }
+
+        private void PathContainerView_PathsEdited(PathContainer initial, PathContainer dest)
+        {
+            btnApplyRename.Enabled = !initial.SequenceEqual(dest);
         }
 
         private void chkCheckPaths_CheckedChanged(object sender, EventArgs e)
@@ -41,10 +47,6 @@ namespace BatchRenamerExtension
             pathContainerView.ShowFullpath = chkShowpathDest.Checked;
             pathContainerPreview.ShowFullpath = chkShowpathDest.Checked;
             if (regexWindow != null) regexWindow.ShowFullpathChanged();
-        }
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
         private void btnApply_Click(object sender, EventArgs e)
         {
@@ -75,5 +77,6 @@ namespace BatchRenamerExtension
             help.SetColor(pathContainerView);
             help.ShowDialog();
         }
+
     }
 }

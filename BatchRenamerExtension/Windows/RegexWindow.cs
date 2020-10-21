@@ -78,7 +78,7 @@ namespace BatchRenamerExtension
         private void RefreshPreview()
         {
             if (!chkPreview.Checked) return;
-            preview.SetPaths(view.SourceFilenames, string.IsNullOrEmpty(txbFrom.Text));
+            preview.SetPaths(view.DestFilenames, string.IsNullOrEmpty(txbFrom.Text));
             preview.ApplyRegex(txbFrom.Text, txbTo.Text, false);
             preview.ClearUndo();
         }

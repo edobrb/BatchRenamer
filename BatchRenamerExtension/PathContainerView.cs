@@ -18,11 +18,13 @@ namespace BatchRenamerExtension
         private const string PATH_REGEX = @"(^(.+)\\)";
         private const string FILENAME_REGEX = @"[^\\]+$";
 
-        private bool checkPathSanity = true;
+        private bool checkPathSanity = false;
         private bool showFullpath = false;
         private string renameRegex = null;
         public PathContainer SourceFilenames { get; private set; } = new PathContainer();
         public PathContainer DestFilenames { get; private set; } = new PathContainer();
+        public delegate void PathsEditedEvent(PathContainer initial, PathContainer dest);
+        public event PathsEditedEvent PathsEdited;
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowFullpath
@@ -93,6 +95,7 @@ namespace BatchRenamerExtension
             }
             UpdateDestinatinoPath(e.ChangedRange);
             ReprintColoration(e.ChangedRange);
+            PathsEdited?.Invoke(SourceFilenames, DestFilenames);
         }
         public void ReprintFilenames(bool updateDestination = true)
         {
@@ -221,6 +224,7 @@ namespace BatchRenamerExtension
                         if (ShowFullpath) DestFilenames[i].CompletePath = Regex.Replace(DestFilenames[i].CompletePath, from, to);
                         else DestFilenames[i].OnlyName = Regex.Replace(DestFilenames[i].OnlyName, from, to);
                     }
+                    var asd = DestFilenames[0].IsFileLocked;
                     ReprintFilenames();
                     return true;
                 }

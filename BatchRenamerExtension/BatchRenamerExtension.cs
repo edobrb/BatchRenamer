@@ -29,17 +29,18 @@ namespace BatchRenamerExtension
 
         protected override ContextMenuStrip CreateMenu()
         {
+            List<string> files = SelectedItemPaths.ToList();
             ContextMenuStrip menu = new ContextMenuStrip();
             Assembly assembly = Assembly.GetAssembly(typeof(BatchRenamerExtension));
             Bitmap icon = new Bitmap(assembly.GetManifestResourceStream("BatchRenamerExtension.Resources.icon.png"));
             var itemCountLines = new ToolStripMenuItem
             {
-                Text = "Rename batch",
+                Text = "Rename batch (" + files.Count + ")",
                 Image = icon
             };
             itemCountLines.Click += (sender, args) =>
             {
-                BatchRenamerWindow renamer = new BatchRenamerWindow(SelectedItemPaths);
+                BatchRenamerWindow renamer = new BatchRenamerWindow(files);
                 renamer.Show();
             };
             menu.Items.Add(itemCountLines);

@@ -28,153 +28,179 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.chkCheckPaths = new System.Windows.Forms.CheckBox();
-            this.chkShowpathDest = new System.Windows.Forms.CheckBox();
-            this.btnReset = new System.Windows.Forms.Button();
-            this.btnRegex = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnApply = new System.Windows.Forms.Button();
-            this.pathContainerView = new PathContainerView();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addOtherFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addOtherFoldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnReset = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnRegex = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkShowpathDest = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkCheckPaths = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnApplyRename = new System.Windows.Forms.ToolStripMenuItem();
             this.pathContainerPreview = new PathContainerView();
-            this.btnHelp = new System.Windows.Forms.Button();
+            this.pathContainerView = new PathContainerView();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // chkCheckPaths
+            // menuStrip1
             // 
-            this.chkCheckPaths.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkCheckPaths.AutoSize = true;
-            this.chkCheckPaths.Checked = true;
-            this.chkCheckPaths.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkCheckPaths.Location = new System.Drawing.Point(695, 39);
-            this.chkCheckPaths.Name = "chkCheckPaths";
-            this.chkCheckPaths.Size = new System.Drawing.Size(116, 17);
-            this.chkCheckPaths.TabIndex = 2;
-            this.chkCheckPaths.Text = "Check path validity";
-            this.chkCheckPaths.UseVisualStyleBackColor = true;
-            this.chkCheckPaths.CheckedChanged += new System.EventHandler(this.chkCheckPaths_CheckedChanged);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.btnHelp,
+            this.viewToolStripMenuItem,
+            this.btnApplyRename});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(591, 24);
+            this.menuStrip1.TabIndex = 9;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // chkShowpathDest
+            // fileToolStripMenuItem
             // 
-            this.chkShowpathDest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.chkShowpathDest.AutoSize = true;
-            this.chkShowpathDest.Location = new System.Drawing.Point(695, 62);
-            this.chkShowpathDest.Name = "chkShowpathDest";
-            this.chkShowpathDest.Size = new System.Drawing.Size(93, 17);
-            this.chkShowpathDest.TabIndex = 3;
-            this.chkShowpathDest.Text = "Show full path";
-            this.chkShowpathDest.UseVisualStyleBackColor = true;
-            this.chkShowpathDest.CheckedChanged += new System.EventHandler(this.chkShowpathDest_CheckedChanged);
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addOtherFilesToolStripMenuItem,
+            this.addOtherFoldersToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // addOtherFilesToolStripMenuItem
+            // 
+            this.addOtherFilesToolStripMenuItem.Name = "addOtherFilesToolStripMenuItem";
+            this.addOtherFilesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.addOtherFilesToolStripMenuItem.Text = "Add other files...";
+            // 
+            // addOtherFoldersToolStripMenuItem
+            // 
+            this.addOtherFoldersToolStripMenuItem.Name = "addOtherFoldersToolStripMenuItem";
+            this.addOtherFoldersToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.addOtherFoldersToolStripMenuItem.Text = "Add other folders...";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnReset,
+            this.btnRegex});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
             // 
             // btnReset
             // 
-            this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReset.Location = new System.Drawing.Point(695, 85);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(116, 23);
-            this.btnReset.TabIndex = 4;
+            this.btnReset.Size = new System.Drawing.Size(115, 22);
             this.btnReset.Text = "Reset";
-            this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // btnRegex
             // 
-            this.btnRegex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRegex.Location = new System.Drawing.Point(695, 114);
             this.btnRegex.Name = "btnRegex";
-            this.btnRegex.Size = new System.Drawing.Size(116, 23);
-            this.btnRegex.TabIndex = 5;
+            this.btnRegex.Size = new System.Drawing.Size(115, 22);
             this.btnRegex.Text = "Regex...";
-            this.btnRegex.UseVisualStyleBackColor = true;
             this.btnRegex.Click += new System.EventHandler(this.btnRegex_Click);
             // 
-            // btnCancel
+            // btnHelp
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(695, 241);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(116, 23);
-            this.btnCancel.TabIndex = 6;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnHelp.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(24, 20);
+            this.btnHelp.Text = "?";
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
-            // btnApply
+            // viewToolStripMenuItem
             // 
-            this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnApply.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApply.Location = new System.Drawing.Point(695, 270);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(116, 23);
-            this.btnApply.TabIndex = 7;
-            this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
-            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.chkShowpathDest,
+            this.chkCheckPaths});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
             // 
-            // pathContainerView
+            // chkShowpathDest
             // 
-            this.pathContainerView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pathContainerView.Location = new System.Drawing.Point(0, 1);
-            this.pathContainerView.Name = "pathContainerView";
-            this.pathContainerView.Size = new System.Drawing.Size(686, 298);
-            this.pathContainerView.TabIndex = 8;
+            this.chkShowpathDest.CheckOnClick = true;
+            this.chkShowpathDest.Name = "chkShowpathDest";
+            this.chkShowpathDest.Size = new System.Drawing.Size(175, 22);
+            this.chkShowpathDest.Text = "Show full path";
+            this.chkShowpathDest.CheckedChanged += new System.EventHandler(this.chkShowpathDest_CheckedChanged);
+            // 
+            // chkCheckPaths
+            // 
+            this.chkCheckPaths.CheckOnClick = true;
+            this.chkCheckPaths.Name = "chkCheckPaths";
+            this.chkCheckPaths.Size = new System.Drawing.Size(175, 22);
+            this.chkCheckPaths.Text = "Check path validity";
+            this.chkCheckPaths.CheckedChanged += new System.EventHandler(this.chkCheckPaths_CheckedChanged);
+            // 
+            // btnApplyRename
+            // 
+            this.btnApplyRename.Enabled = false;
+            this.btnApplyRename.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnApplyRename.Name = "btnApplyRename";
+            this.btnApplyRename.Size = new System.Drawing.Size(50, 20);
+            this.btnApplyRename.Text = "Apply";
+            this.btnApplyRename.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // pathContainerPreview
             // 
             this.pathContainerPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pathContainerPreview.Location = new System.Drawing.Point(0, 1);
+            this.pathContainerPreview.Location = new System.Drawing.Point(0, 24);
             this.pathContainerPreview.Name = "pathContainerPreview";
-            this.pathContainerPreview.Size = new System.Drawing.Size(686, 298);
+            this.pathContainerPreview.Size = new System.Drawing.Size(591, 274);
             this.pathContainerPreview.TabIndex = 8;
             this.pathContainerPreview.TabStop = false;
             this.pathContainerPreview.Visible = false;
             // 
-            // btnHelp
+            // pathContainerView
             // 
-            this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHelp.Location = new System.Drawing.Point(694, 8);
-            this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(116, 23);
-            this.btnHelp.TabIndex = 1;
-            this.btnHelp.Text = "Help";
-            this.btnHelp.UseVisualStyleBackColor = true;
-            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            this.pathContainerView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pathContainerView.Location = new System.Drawing.Point(0, 24);
+            this.pathContainerView.Name = "pathContainerView";
+            this.pathContainerView.Size = new System.Drawing.Size(591, 274);
+            this.pathContainerView.TabIndex = 8;
             // 
             // BatchRenamerWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(820, 300);
-            this.Controls.Add(this.btnHelp);
+            this.ClientSize = new System.Drawing.Size(591, 300);
             this.Controls.Add(this.pathContainerPreview);
             this.Controls.Add(this.pathContainerView);
-            this.Controls.Add(this.btnApply);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnRegex);
-            this.Controls.Add(this.btnReset);
-            this.Controls.Add(this.chkShowpathDest);
-            this.Controls.Add(this.chkCheckPaths);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(400, 240);
             this.Name = "BatchRenamerWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Bath Renamer";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.CheckBox chkCheckPaths;
-        private System.Windows.Forms.CheckBox chkShowpathDest;
-        private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.Button btnRegex;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnApply;
         private PathContainerView pathContainerView;
         private PathContainerView pathContainerPreview;
-        private System.Windows.Forms.Button btnHelp;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem btnHelp;
+        private System.Windows.Forms.ToolStripMenuItem btnReset;
+        private System.Windows.Forms.ToolStripMenuItem btnRegex;
+        private System.Windows.Forms.ToolStripMenuItem addOtherFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addOtherFoldersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem chkShowpathDest;
+        private System.Windows.Forms.ToolStripMenuItem chkCheckPaths;
+        private System.Windows.Forms.ToolStripMenuItem btnApplyRename;
     }
 }

@@ -61,5 +61,15 @@ namespace BatchRenamerExtension
         {
             get => paths.Count;
         }
+
+        public override bool Equals(object obj)
+        {
+            return (obj is PathContainer) && ((obj as PathContainer).paths.Equals(paths));
+        }
+
+        public override int GetHashCode()
+        {
+            return paths.GetHashCode();
+        }
     }
 }
