@@ -30,8 +30,8 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addOtherFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addOtherFoldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnAddOtherFiles = new System.Windows.Forms.ToolStripMenuItem();
+            this.addOtherFolders = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnReset = new System.Windows.Forms.ToolStripMenuItem();
             this.btnRegex = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,23 +62,25 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addOtherFilesToolStripMenuItem,
-            this.addOtherFoldersToolStripMenuItem});
+            this.btnAddOtherFiles,
+            this.addOtherFolders});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // addOtherFilesToolStripMenuItem
+            // btnAddOtherFiles
             // 
-            this.addOtherFilesToolStripMenuItem.Name = "addOtherFilesToolStripMenuItem";
-            this.addOtherFilesToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.addOtherFilesToolStripMenuItem.Text = "Add other files...";
+            this.btnAddOtherFiles.Name = "btnAddOtherFiles";
+            this.btnAddOtherFiles.Size = new System.Drawing.Size(180, 22);
+            this.btnAddOtherFiles.Text = "Add other files...";
+            this.btnAddOtherFiles.Click += new System.EventHandler(this.btnAddOtherFiles_Click);
             // 
-            // addOtherFoldersToolStripMenuItem
+            // addOtherFolders
             // 
-            this.addOtherFoldersToolStripMenuItem.Name = "addOtherFoldersToolStripMenuItem";
-            this.addOtherFoldersToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.addOtherFoldersToolStripMenuItem.Text = "Add other folders...";
+            this.addOtherFolders.Name = "addOtherFolders";
+            this.addOtherFolders.Size = new System.Drawing.Size(180, 22);
+            this.addOtherFolders.Text = "Add other folders...";
+            this.addOtherFolders.Click += new System.EventHandler(this.addOtherFolders_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -196,8 +198,8 @@
         private System.Windows.Forms.ToolStripMenuItem btnHelp;
         private System.Windows.Forms.ToolStripMenuItem btnReset;
         private System.Windows.Forms.ToolStripMenuItem btnRegex;
-        private System.Windows.Forms.ToolStripMenuItem addOtherFilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addOtherFoldersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem btnAddOtherFiles;
+        private System.Windows.Forms.ToolStripMenuItem addOtherFolders;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem chkShowpathDest;
         private System.Windows.Forms.ToolStripMenuItem chkCheckPaths;

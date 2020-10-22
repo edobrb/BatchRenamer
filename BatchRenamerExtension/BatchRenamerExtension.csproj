@@ -50,6 +50,9 @@
       <HintPath>..\packages\FCTB.2.16.24\lib\FastColoredTextBox.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack-Core.1.1.0.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
     <Reference Include="SharpShell, Version=2.7.2.0, Culture=neutral, PublicKeyToken=f14dc899472fe6fb, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpShell.2.7.2\lib\net40-client\SharpShell.dll</HintPath>
     </Reference>
@@ -67,16 +70,16 @@
   <ItemGroup>
     <Compile Include="BatchRenamerExtension.cs" />
     <Compile Include="FormUtils.cs" />
-    <Compile Include="HelpWindow.cs">
+    <Compile Include="Windows\HelpWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HelpWindow.Designer.cs">
+    <Compile Include="Windows\HelpWindow.Designer.cs">
       <DependentUpon>HelpWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="PathContainerView.cs">
+    <Compile Include="Windows\PathContainerView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PathContainerView.Designer.cs">
+    <Compile Include="Windows\PathContainerView.Designer.cs">
       <DependentUpon>PathContainerView.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\BatchRenamerWindow.cs">
@@ -107,10 +110,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="HelpWindow.resx">
+    <EmbeddedResource Include="Windows\HelpWindow.resx">
       <DependentUpon>HelpWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PathContainerView.resx">
+    <EmbeddedResource Include="Windows\PathContainerView.resx">
       <DependentUpon>PathContainerView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\BatchRenamerWindow.resx">

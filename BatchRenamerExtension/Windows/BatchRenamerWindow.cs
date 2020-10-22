@@ -31,12 +31,10 @@ namespace BatchRenamerExtension
             chkCheckPaths.Checked = files.Count() < 100;
             pathContainerView.PathsEdited += PathContainerView_PathsEdited;
         }
-
         private void PathContainerView_PathsEdited(PathContainer initial, PathContainer dest)
         {
             btnApplyRename.Enabled = !initial.SequenceEqual(dest);
         }
-
         private void chkCheckPaths_CheckedChanged(object sender, EventArgs e)
         {
             pathContainerView.CheckPathSanity = chkCheckPaths.Checked;
@@ -70,13 +68,36 @@ namespace BatchRenamerExtension
         {
             pathContainerView.SetPaths(initialPaths);
         }
-
         private void btnHelp_Click(object sender, EventArgs e)
         {
             HelpWindow help = new HelpWindow();
             help.SetColor(pathContainerView);
             help.ShowDialog();
         }
-
+        private void btnAddOtherFiles_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new OpenFileDialog())
+            {
+                dialog.Multiselect = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    var files = dialog.FileNames.ToList().Where(x => !initialPaths.Select(v => v.CompletePath).Contains(x)).ToList();
+                    initialPaths.AddRange(files);
+                    pathContainerView.SetPaths(initialPaths);
+                }
+            }
+            
+        }
+        private void addOtherFolders_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new FolderBrowserDialog())
+            {
+                if (dialog.ShowDialog() == DialogResult.OK && !initialPaths.Select(x=>x.CompletePath).Contains(dialog.SelectedPath))
+                {
+                    initialPaths.AddRange(new string[] { dialog.SelectedPath });
+                    pathContainerView.SetPaths(initialPaths);
+                }
+            }
+        }
     }
 }
